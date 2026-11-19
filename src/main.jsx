@@ -12,7 +12,7 @@ function Landing({onOpenApp}){
   <header className="landing-header">
    <a className="landing-brand" href="#" onClick={e=>e.preventDefault()} aria-label="PickleQueue home"><span className="landing-brand-mark">p<span>•</span></span><span>picklequeue<span className="landing-brand-period">.</span></span></a>
    <nav className="landing-nav" aria-label="Main navigation"><a href="#features">Features</a><a href="#how-it-works">How it works</a></nav>
-   <div className="landing-header-actions"><a className="landing-login" href="/login.html">Login</a><button className="landing-header-cta" onClick={onOpenApp}>Open the app <ArrowUpRight size={16}/></button></div>
+   <div className="landing-header-actions"><a className="landing-about-link" href="#about-us">About Us</a><a className="landing-login" href="/login.html">Login</a><button className="landing-header-cta" onClick={onOpenApp}>Open the app <ArrowUpRight size={16}/></button></div>
   </header>
   <main className="landing-main">
    <section className="landing-hero">
@@ -35,6 +35,18 @@ function Landing({onOpenApp}){
       <div className="preview-card-footer"><span><span/> Court 1 is ready</span><span className="preview-arrow"><ArrowRight size={15}/></span></div>
      </div>
      <div className="landing-float-note"><span className="float-check"><Check size={15}/></span><span><strong>Fair turns, every time</strong><small>Good games start here</small></span></div>
+    </div>
+   </section>
+   <section className="landing-about" id="about-us">
+    <div className="landing-about-copy">
+     <span className="landing-kicker">ABOUT US</span>
+     <h2>Built around the love of the game.</h2>
+     <p>PickleQueue helps local clubs and open-play communities spend less time organizing and more time on the court. We bring players, partners, courts, and match results together in one simple place.</p>
+    </div>
+    <div className="landing-about-values">
+     <div><strong>01</strong><span>Fair, easy rotations</span></div>
+     <div><strong>02</strong><span>Every player included</span></div>
+     <div><strong>03</strong><span>More time to play</span></div>
     </div>
    </section>
    <section className="landing-features" id="features">
