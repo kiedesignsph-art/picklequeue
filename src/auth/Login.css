@@ -45,6 +45,7 @@
 .pq-auth-submit:hover {transform:translateY(-2px); box-shadow:0 10px 24px rgba(17,91,58,.18);}
 .pq-auth-submit:focus-visible,.pq-auth-visibility:focus-visible,.pq-auth-page a:focus-visible {outline:3px solid #a7c77c;outline-offset:3px;}
 .pq-auth-message {margin:13px 0 0; color:#38674b; font-size:12px; line-height:1.5;}
+.pq-auth-message.error {color:#a34635;}
 .pq-auth-divider {display:flex; align-items:center; gap:20px; margin:31px 0 25px; color:#87948e; font-size:15px; font-weight:700;}
 .pq-auth-divider::before,.pq-auth-divider::after {content:''; height:1px; background:#e0e4dc; flex:1;}
 .pq-auth-signup {text-align:center; color:#8b9897; font-size:14px; font-weight:600; margin:0;}

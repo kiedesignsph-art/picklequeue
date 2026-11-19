@@ -1,17 +1,50 @@
-import React, { useState } from 'react';
-import { Mail, LockKeyhole, Eye, EyeOff, ArrowRight } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { User, LockKeyhole, Eye, EyeOff, ArrowRight } from 'lucide-react';
+import { authenticatedUser, startSession } from './session';
 import './Login.css';
 
 export default function Login() {
-  const [email, setEmail] = useState('');
+  const [usernameInput, setUsernameInput] = useState('');
   const [password, setPassword] = useState('');
   const [visible, setVisible] = useState(false);
   const [remember, setRemember] = useState(false);
   const [message, setMessage] = useState('');
+  const [messageType, setMessageType] = useState('info');
+  const username = import.meta.env.VITE_DEMO_USERNAME;
+  const expectedPassword = import.meta.env.VITE_DEMO_PASSWORD;
+
+  useEffect(() => {
+    if (authenticatedUser()) window.location.replace('/');
+  }, []);
 
   function submit(event) {
     event.preventDefault();
-    setMessage('This is a design preview. Connect your authentication API to enable sign in.');
+    setMessage('');
+
+    if (!username || !expectedPassword) {
+      setMessageType('error');
+      setMessage('Demo login is not configured. Set the credentials in .env.local and restart the app.');
+      return;
+    }
+
+    if (usernameInput.trim().toLowerCase() !== username.trim().toLowerCase() || password !== expectedPassword) {
+      setMessageType('error');
+      setMessage('Incorrect username or password.');
+      return;
+    }
+
+    try {
+      startSession(username, remember);
+      window.location.replace('/');
+    } catch {
+      setMessageType('error');
+      setMessage('Could not save your login in browser storage. Check your browser settings and try again.');
+    }
+  }
+
+  function showUnavailableMessage(text) {
+    setMessageType('info');
+    setMessage(text);
   }
 
   return (
@@ -45,10 +78,10 @@ export default function Login() {
             </header>
             <form onSubmit={submit}>
               <div className="pq-auth-field">
-                <label htmlFor="pq-auth-email">Email address</label>
+                <label htmlFor="pq-auth-username">Username</label>
                 <div className="pq-auth-control">
-                  <Mail size={20} aria-hidden="true" />
-                  <input id="pq-auth-email" type="email" placeholder="you@example.com" autoComplete="email" value={email} onChange={e => setEmail(e.target.value)} required />
+                  <User size={20} aria-hidden="true" />
+                  <input id="pq-auth-username" type="text" placeholder="Enter your username" autoComplete="username" value={usernameInput} onChange={e => setUsernameInput(e.target.value)} required />
                 </div>
               </div>
               <div className="pq-auth-field">
@@ -63,13 +96,13 @@ export default function Login() {
               </div>
               <div className="pq-auth-options">
                 <label className="pq-auth-remember"><input type="checkbox" checked={remember} onChange={e => setRemember(e.target.checked)} /> Remember me</label>
-                <a href="#forgot-password" onClick={e => { e.preventDefault(); setMessage('Password recovery will be available when authentication is connected.'); }}>Forgot password?</a>
+                <a href="#forgot-password" onClick={e => { e.preventDefault(); showUnavailableMessage('Password recovery is not available in this demo.'); }}>Forgot password?</a>
               </div>
               <button className="pq-auth-submit" type="submit">Sign in <ArrowRight size={21} aria-hidden="true" /></button>
-              {message && <p className="pq-auth-message" role="status">{message}</p>}
+              {message && <p className={`pq-auth-message ${messageType}`} role={messageType === 'error' ? 'alert' : 'status'}>{message}</p>}
             </form>
             <div className="pq-auth-divider"><span>or</span></div>
-            <p className="pq-auth-signup">New to Picklequeue? <a href="#register" onClick={e => { e.preventDefault(); setMessage('Account registration will be available when authentication is connected.'); }}>Create an account</a></p>
+            <p className="pq-auth-signup">New to Picklequeue? <a href="#register" onClick={e => { e.preventDefault(); showUnavailableMessage('Account registration is not available in this demo.'); }}>Create an account</a></p>
           </section>
         </div>
       </div>
