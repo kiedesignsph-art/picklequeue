@@ -11,6 +11,8 @@ npm run dev
 
 Open the local URL printed by Vite. Run `npm run build` for production output, `npm run preview` to preview the build, and `npm test` for queue algorithm tests.
 
+The production build includes both `index.html` and `login.html` as entry pages. For Vercel, use the Vite preset, `npm run build` as the build command, and `dist` as the output directory.
+
 ## Demo login
 
 Copy `.env.example` to `.env.local`, set `VITE_DEMO_USERNAME` and `VITE_DEMO_PASSWORD`, then restart the Vite server. The demo login page supports session-only sign-in or “Remember me,” and the sidebar has a logout button.
