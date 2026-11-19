@@ -7,12 +7,31 @@ import './styles.css';
 const STORAGE = 'picklequeue-v1';
 const initials = name => name.split(' ').filter(Boolean).map(w=>w[0]).slice(0,2).join('').toUpperCase();
 const duration = (start, now=Date.now()) => {const sec=Math.max(0,Math.floor((now-start)/1000));return `${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`;};
+function ContactModal({onClose}){
+ useEffect(()=>{const handler=e=>{if(e.key==='Escape')onClose()};window.addEventListener('keydown',handler);return()=>window.removeEventListener('keydown',handler)},[onClose]);
+ return <div className="modal-backdrop" onClick={e=>{if(e.target===e.currentTarget)onClose()}}>
+  <section className="modal contact-modal" role="dialog" aria-modal="true" aria-labelledby="contact-title">
+   <button className="modal-close icon-button" onClick={onClose} aria-label="Close dialog"><X size={20}/></button>
+   <span className="modal-icon"><CircleHelp size={24}/></span>
+   <h2 id="contact-title">Contact us</h2>
+   <p>Have a question about running open play, a feature idea, or something not working on your courts? We'd love to hear from you. PickleQueue is built with local clubs and players in mind, so your feedback helps shape what comes next.</p>
+   <ul className="contact-list">
+    <li><strong>Email</strong><span>hello@picklequeue.app</span></li>
+    <li><strong>Response time</strong><span>Usually within 1–2 business days</span></li>
+    <li><strong>Good to include</strong><span>Your club or court name, how many players and courts you run, and what you need help with</span></li>
+   </ul>
+   <div className="modal-actions"><button className="landing-header-cta" onClick={onClose}>Close</button></div>
+  </section>
+ </div>;
+}
 function Landing({onOpenApp}){
+ const [contactOpen,setContactOpen]=useState(false);
  return <div className="landing-page">
+  {contactOpen&&<ContactModal onClose={()=>setContactOpen(false)}/>}
   <header className="landing-header">
    <a className="landing-brand" href="#" onClick={e=>e.preventDefault()} aria-label="PickleQueue home"><span className="landing-brand-mark">p<span>•</span></span><span>picklequeue<span className="landing-brand-period">.</span></span></a>
    <nav className="landing-nav" aria-label="Main navigation"><a href="#features">Features</a><a href="#how-it-works">How it works</a></nav>
-   <div className="landing-header-actions"><a className="landing-login" href="/login.html">Login</a><button className="landing-header-cta" onClick={onOpenApp}>Open the app <ArrowUpRight size={16}/></button></div>
+   <div className="landing-header-actions"><button type="button" className="landing-login landing-contact" onClick={()=>setContactOpen(true)}>Contact us</button><a className="landing-login" href="/login.html">Login</a><button className="landing-header-cta" onClick={onOpenApp}>Open the app <ArrowUpRight size={16}/></button></div>
   </header>
   <main className="landing-main">
    <section className="landing-hero">
